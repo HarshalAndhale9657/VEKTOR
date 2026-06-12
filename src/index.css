@@ -10,8 +10,46 @@ html, body, #root {
   padding: 0;
   background-color: #000000;
   overflow-x: hidden; /* Prevents horizontal scrolling */
+  scroll-behavior: smooth;
 }
 
 * {
   box-sizing: border-box;
+}
+
+a, button, input, textarea, select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: currentColor;
+  opacity: 0.48;
+}
+
+select option {
+  color: #000000;
+}
+
+@media (max-width: 920px) {
+  .vektor-desktop-controls {
+    display: none !important;
+  }
+
+  .vektor-mobile-controls {
+    display: flex !important;
+    align-items: center;
+  }
+
+  .vektor-process-grid,
+  .vektor-contact-layout,
+  .vektor-form-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .vektor-card-grid {
+    gap: 16px !important;
+  }
 }

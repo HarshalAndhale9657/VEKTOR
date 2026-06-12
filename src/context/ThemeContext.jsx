@@ -1,4 +1,5 @@
-﻿import React, { createContext, useState, useContext, useEffect } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useContext, useState } from 'react';
 
 const ThemeContext = createContext();
 
@@ -15,7 +16,7 @@ export const themes = {
     panel: 'rgba(255, 255, 255, 0.03)',
     mesh: 'rgba(255, 255, 255, 0.04)',
     inverse: '#ffffff',
-    inverseBase: '#000000'
+    inverseBase: '#000000',
   },
   light: {
     base: '#ffffff',
@@ -29,8 +30,8 @@ export const themes = {
     panel: 'rgba(0, 0, 0, 0.02)',
     mesh: 'rgba(0, 0, 0, 0.03)',
     inverse: '#000000',
-    inverseBase: '#ffffff'
-  }
+    inverseBase: '#ffffff',
+  },
 };
 
 export function ThemeProvider({ children }) {

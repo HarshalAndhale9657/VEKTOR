@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, glass, transitions } from '../tokens';
 
 const FOUNDERS = [
   {
-    name: 'Aleksandre Tkeshelashvili',
+    name: 'Aleksandre',
     image: '/images/icon.png',
     role: 'Full-Stack Core',
     signal: 'FRONTEND / API / DEPLOY',
@@ -101,7 +101,7 @@ export default function VektorStudio() {
         </div>
 
         <div style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
-          <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}>// MODULE_03</span>
+          <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}>// MODULE_05</span>
           <h2 style={{ ...styles.sectionTitle, color: currentTheme.primary }}>STUDIO OPERATORS</h2>
           <p style={{ ...styles.sectionText, color: currentTheme.muted }}>
             A focused technical crew building fast, secure, high-conversion digital systems.

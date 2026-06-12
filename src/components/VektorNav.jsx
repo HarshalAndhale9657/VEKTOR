@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, glass, transitions, radii } from '../tokens';
+
+const NAV_LINKS = [
+  { label: 'SERVICES', href: '#services' },
+  { label: 'PROCESS', href: '#process' },
+  { label: 'WORK', href: '#work' },
+  { label: 'STUDIO', href: '#studio' },
+];
 
 export default function VektorNav() {
   const { isDark, currentTheme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -14,73 +22,108 @@ export default function VektorNav() {
   }, []);
 
   return (
-    <nav style={{
-      ...styles.navContainer,
-      background: scrolled ? (isDark ? 'rgba(0, 0, 0, 0.85)' : 'rgba(255, 255, 255, 0.85)') : 'transparent',
-      borderBottom: scrolled ? `1px solid ${currentTheme.border}` : '1px solid transparent',
-      backdropFilter: scrolled ? glass.blur : 'none',
-    }}>
+    <nav
+      style={{
+        ...styles.navContainer,
+        background: scrolled
+          ? isDark
+            ? 'rgba(0, 0, 0, 0.85)'
+            : 'rgba(255, 255, 255, 0.85)'
+          : 'transparent',
+        borderBottom: scrolled ? `1px solid ${currentTheme.border}` : '1px solid transparent',
+        backdropFilter: scrolled ? glass.blur : 'none',
+      }}
+    >
       <div style={styles.navInner}>
-        {/* Brand Logo */}
-        <a href="#" style={styles.logoWrap} aria-label="Vektor Studio Home">
+        <a href="#top" style={styles.logoWrap} aria-label="Vektor Studio Home">
           <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 6L16 26L28 6" stroke={currentTheme.primary} strokeWidth="2.5" strokeLinecap="square"/>
-            <path d="M10 6L16 16L22 6" stroke={currentTheme.primary} strokeWidth="1.25" strokeLinecap="square" opacity="0.4"/>
+            <path d="M4 6L16 26L28 6" stroke={currentTheme.primary} strokeWidth="2.5" strokeLinecap="square" />
+            <path d="M10 6L16 16L22 6" stroke={currentTheme.primary} strokeWidth="1.25" strokeLinecap="square" opacity="0.4" />
           </svg>
           <span style={{ ...styles.logoText, color: currentTheme.primary }}>
             VEKTOR<span style={{ ...styles.logoSub, color: currentTheme.muted }}>SOFTWARE</span>
           </span>
         </a>
 
-        {/* Desktop Controls Menu */}
-        <div style={styles.desktopControls}>
-          <a href="#services" style={{ ...styles.link, color: currentTheme.muted }}>SERVICES</a>
-          
-          {/* Custom Premium Toggle Switch */}
-          <button 
-            onClick={toggleTheme} 
+        <div className="vektor-desktop-controls" style={styles.desktopControls}>
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              onMouseEnter={() => setActiveLink(link.href)}
+              onMouseLeave={() => setActiveLink(null)}
+              style={{
+                ...styles.link,
+                color: activeLink === link.href ? currentTheme.primary : currentTheme.muted,
+              }}
+            >
+              {link.label}
+            </a>
+          ))}
+
+          <button
+            onClick={toggleTheme}
             style={{ ...styles.toggleTrack, borderColor: currentTheme.border }}
             aria-label="Toggle structural theme interface"
           >
-            <div style={{
-              ...styles.toggleThumb,
-              background: currentTheme.primary,
-              transform: isDark ? 'translateX(18px)' : 'translateX(0px)',
-            }} />
+            <div
+              style={{
+                ...styles.toggleThumb,
+                background: currentTheme.primary,
+                transform: isDark ? 'translateX(18px)' : 'translateX(0px)',
+              }}
+            />
           </button>
 
-          <button style={{ ...styles.ctaButton, background: currentTheme.primary, color: currentTheme.inverseBase }}>
+          <a href="#contact" style={{ ...styles.ctaButton, background: currentTheme.primary, color: currentTheme.inverseBase }}>
             CONNECT
-          </button>
+          </a>
         </div>
 
-        {/* Mobile Hamburger / Toggle Container */}
-        <div style={styles.mobileControls}>
-          <button 
-            onClick={toggleTheme} 
+        <div className="vektor-mobile-controls" style={styles.mobileControls}>
+          <button
+            onClick={toggleTheme}
             style={{ ...styles.toggleTrack, borderColor: currentTheme.border, marginRight: '12px' }}
+            aria-label="Toggle structural theme interface"
           >
-            <div style={{
-              ...styles.toggleThumb,
-              background: currentTheme.primary,
-              transform: isDark ? 'translateX(18px)' : 'translateX(0px)',
-            }} />
+            <div
+              style={{
+                ...styles.toggleThumb,
+                background: currentTheme.primary,
+                transform: isDark ? 'translateX(18px)' : 'translateX(0px)',
+              }}
+            />
           </button>
-          
-          <button 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
+
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             style={{ ...styles.mobileMenuBtn, color: currentTheme.primary }}
+            aria-label="Toggle navigation menu"
           >
-            {mobileMenuOpen ? '✕' : '☰'}
+            {mobileMenuOpen ? 'CLOSE' : 'MENU'}
           </button>
         </div>
       </div>
 
-      {/* Smartphone Responsive Dropdown Drawer */}
       {mobileMenuOpen && (
         <div style={{ ...styles.mobileDrawer, background: currentTheme.base, borderBottom: `1px solid ${currentTheme.border}` }}>
-          <a href="#services" onClick={() => setMobileMenuOpen(false)} style={{ ...styles.mobileLink, color: currentTheme.primary }}>SERVICES</a>
-          <button style={{ ...styles.mobileCta, background: currentTheme.primary, color: currentTheme.inverseBase }}>CONNECT</button>
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={() => setMobileMenuOpen(false)}
+              style={{ ...styles.mobileLink, color: currentTheme.primary }}
+            >
+              {link.label}
+            </a>
+          ))}
+          <a
+            href="#contact"
+            onClick={() => setMobileMenuOpen(false)}
+            style={{ ...styles.mobileCta, background: currentTheme.primary, color: currentTheme.inverseBase }}
+          >
+            CONNECT
+          </a>
         </div>
       )}
     </nav>
@@ -131,8 +174,7 @@ const styles = {
   desktopControls: {
     display: 'flex',
     alignItems: 'center',
-    gap: '32px',
-    '@media (maxWidth: 768px)': { display: 'none' }, // Handled via global responsiveness rules below
+    gap: '26px',
   },
   link: {
     fontFamily: typography.mono,
@@ -161,6 +203,9 @@ const styles = {
     transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
   },
   ctaButton: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     fontFamily: typography.mono,
     fontSize: '11px',
     fontWeight: 600,
@@ -169,6 +214,8 @@ const styles = {
     borderRadius: radii.none,
     cursor: 'pointer',
     letterSpacing: '0.08em',
+    textDecoration: 'none',
+    transition: transitions.fast,
   },
   mobileControls: {
     display: 'none',
@@ -176,7 +223,9 @@ const styles = {
   mobileMenuBtn: {
     background: 'none',
     border: 'none',
-    fontSize: '24px',
+    fontFamily: typography.mono,
+    fontSize: '11px',
+    letterSpacing: '0.12em',
     cursor: 'pointer',
     padding: '4px',
   },
@@ -197,6 +246,9 @@ const styles = {
     letterSpacing: '0.1em',
   },
   mobileCta: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     fontFamily: typography.mono,
     fontSize: '13px',
     fontWeight: 600,
@@ -204,17 +256,6 @@ const styles = {
     padding: '12px',
     width: '100%',
     cursor: 'pointer',
+    textDecoration: 'none',
   },
 };
-
-// Inject simple viewport layout rule handling for native smartphone execution
-if (typeof window !== 'undefined') {
-  const styleTag = document.createElement('style');
-  styleTag.innerHTML = `
-    @media (max-width: 768px) {
-      div[style*="desktopControls"] { display: none !important; }
-      div[style*="mobileControls"] { display: flex !important; align-items: center; }
-    }
-  `;
-  document.head.appendChild(styleTag);
-}

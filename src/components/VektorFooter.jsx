@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, transitions } from '../tokens';
 
@@ -54,12 +54,13 @@ export default function VektorFooter() {
           <div style={styles.brandBlock}>
             <span style={{ ...styles.logoText, color: currentTheme.primary }}>VEKTOR</span>
             <p style={{ ...styles.brandDesc, color: currentTheme.muted }}>
-              Industrial-grade digital infrastructure.
+              Websites and web apps for businesses that need a sharp digital operating layer.
             </p>
           </div>
           <div style={styles.linkGrid}>
-            <a href="#services" style={{ ...styles.link, color: currentTheme.muted }}>SERVICES</a>
-            <a href="#about" style={{ ...styles.link, color: currentTheme.muted }}>MANIFESTO</a>
+            <a href="#services" style={{ ...styles.link, color: currentTheme.muted }}>PRICING</a>
+            <a href="#process" style={{ ...styles.link, color: currentTheme.muted }}>PROCESS</a>
+            <a href="#work" style={{ ...styles.link, color: currentTheme.muted }}>WORK</a>
             <a href="#contact" style={{ ...styles.link, color: currentTheme.muted }}>CONNECT</a>
           </div>
 

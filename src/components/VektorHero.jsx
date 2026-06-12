@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, transitions } from '../tokens';
 
@@ -41,12 +40,12 @@ export default function VektorHero() {
         </p>
 
         <div style={styles.actionRow}>
-          <button style={{ ...styles.primaryBtn, background: currentTheme.primary, borderColor: currentTheme.primary, color: currentTheme.inverseBase }}>
+          <a href="#contact" style={{ ...styles.primaryBtn, background: currentTheme.primary, borderColor: currentTheme.primary, color: currentTheme.inverseBase }}>
             INITIALIZE PROJECT
-          </button>
-          <button style={{ ...styles.secondaryBtn, borderColor: currentTheme.border, color: currentTheme.primary }}>
-            VIEW MANIFESTO
-          </button>
+          </a>
+          <a href="#services" style={{ ...styles.secondaryBtn, borderColor: currentTheme.border, color: currentTheme.primary }}>
+            VIEW PRICING
+          </a>
         </div>
       </div>
     </section>
@@ -134,6 +133,9 @@ const styles = {
     width: '100%',
   },
   primaryBtn: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     fontFamily: typography.mono,
     fontSize: '12px',
     fontWeight: 600,
@@ -143,8 +145,13 @@ const styles = {
     letterSpacing: '0.08em',
     flex: '1 1 auto',
     maxWidth: '280px',
+    textDecoration: 'none',
+    transition: transitions.fast,
   },
   secondaryBtn: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     fontFamily: typography.mono,
     fontSize: '12px',
     fontWeight: 600,
@@ -156,5 +163,6 @@ const styles = {
     flex: '1 1 auto',
     maxWidth: '280px',
     transition: transitions.fast,
+    textDecoration: 'none',
   },
 };

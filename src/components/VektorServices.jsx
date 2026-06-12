@@ -1,53 +1,96 @@
-import React from 'react';
+import { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, glass, transitions } from '../tokens';
 
 const CARD_DATA = [
   {
     index: '01',
-    title: 'FULL-STACK CORE',
-    desc: 'Bespoke architectural logic layers built for speed and computational resilience. Custom data engineering with strict payload validation routines.'
+    title: 'ONE PAGE WEBSITE',
+    target: 'Small businesses, personal brands, and solo offers that need a focused launch page.',
+    scope: 'Single responsive page, conversion copy structure, contact path, deployment.',
+    price: '$150 - $300',
+    badge: 'FAST LAUNCH'
   },
   {
     index: '02',
-    title: 'SYSTEM DESIGN',
-    desc: 'High-conversion interactive software interfaces mapped completely inside mathematical clamps. Zero dependencies, total performance layout control.'
+    title: 'MULTI PAGE WEBSITE',
+    target: 'Cafes, salons, contractors, creators, and service providers with several offers.',
+    scope: '3-5 pages, navigation system, service pages, contact flow, SEO-ready structure.',
+    price: '$350 - $700',
+    badge: 'MOST REQUESTED'
   },
   {
     index: '03',
-    title: 'PIPELINE LOGISTICS',
-    desc: 'Integrated secure environment setups, deployment automations, and custom API connector integrations engineered to operate at absolute zero configuration error.'
+    title: 'BOOKING / WEB APP',
+    target: 'Teams that need booking logic, dashboards, tools, workflows, or custom operations.',
+    scope: 'Custom interface, business logic, data flow, auth-ready architecture, deployment.',
+    price: '$800 - $1,500',
+    badge: 'CUSTOM SYSTEM'
   }
 ];
 
 export default function VektorServices() {
   const { currentTheme } = useTheme();
+  const [activeCard, setActiveCard] = useState(null);
 
   return (
     <section id="services" style={{ ...styles.sectionWrapper, backgroundColor: currentTheme.base }}>
       <div style={styles.innerContent}>
         <div style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
           <span style={{ ...styles.sectionIndex, color: currentTheme.muted }}>// MODULE_02</span>
-          <h2 style={{ ...styles.sectionTitle, color: currentTheme.primary }}>CAPABILITIES MANIFEST</h2>
+          <h2 style={{ ...styles.sectionTitle, color: currentTheme.primary }}>SERVICES / PRICING</h2>
+          <p style={{ ...styles.sectionText, color: currentTheme.muted }}>
+            Clear builds for real businesses. Each package is scoped to launch cleanly, load fast, and make the next action obvious.
+          </p>
         </div>
 
-        <div style={styles.gridContainer}>
-          {CARD_DATA.map((card) => (
-            <div key={card.index} style={{ 
-              ...styles.serviceCard, 
-              background: currentTheme.panel, 
-              borderColor: currentTheme.border 
-            }}>
+        <div className="vektor-card-grid" style={styles.gridContainer}>
+          {CARD_DATA.map((card) => {
+            const isActive = activeCard === card.index;
+
+            return (
+            <article
+              key={card.index}
+              onMouseEnter={() => setActiveCard(card.index)}
+              onMouseLeave={() => setActiveCard(null)}
+              style={{
+                ...styles.serviceCard,
+                background: isActive ? currentTheme.surface : currentTheme.panel,
+                borderColor: isActive ? currentTheme.borderHover : currentTheme.border,
+                transform: isActive ? 'translateY(-8px)' : 'translateY(0)',
+                boxShadow: isActive ? `0 24px 70px ${currentTheme.mesh}` : 'none',
+              }}
+            >
+              <div
+                style={{
+                  ...styles.cardGlow,
+                  opacity: isActive ? 1 : 0,
+                  background: `linear-gradient(90deg, transparent, ${currentTheme.borderHover}, transparent)`,
+                }}
+              />
+
               <div style={styles.cardHeader}>
-                <span style={{ ...styles.cardIndex, color: currentTheme.muted }}>{card.index}</span>
+                <div style={styles.cardMetaRow}>
+                  <span style={{ ...styles.cardIndex, color: currentTheme.muted }}>{card.index}</span>
+                  <span style={{ ...styles.badge, color: currentTheme.primary, borderColor: currentTheme.border }}>{card.badge}</span>
+                </div>
                 <h3 style={{ ...styles.cardTitle, color: currentTheme.primary }}>{card.title}</h3>
+                <p style={{ ...styles.price, color: currentTheme.primary }}>{card.price}</p>
               </div>
-              <p style={{ ...styles.cardDesc, color: currentTheme.muted }}>{card.desc}</p>
+
+              <div style={styles.cardBody}>
+                <p style={{ ...styles.cardDesc, color: currentTheme.muted }}>{card.target}</p>
+                <div style={{ ...styles.scopeBox, borderColor: currentTheme.border, background: currentTheme.panel }}>
+                  <span style={{ ...styles.scopeLabel, color: currentTheme.dim }}>SCOPE</span>
+                  <p style={{ ...styles.scopeText, color: currentTheme.secondary }}>{card.scope}</p>
+                </div>
+              </div>
+
               <div style={{ ...styles.cardFooter, borderTop: `1px solid ${currentTheme.border}` }}>
-                <span style={{ ...styles.systemLink, color: currentTheme.primary }}>EXECUTE_BOUNDS _</span>
+                <a href="#contact" style={{ ...styles.systemLink, color: currentTheme.primary }}>REQUEST QUOTE _</a>
               </div>
-            </div>
-          ))}
+            </article>
+          )})}
         </div>
       </div>
     </section>
@@ -78,45 +121,110 @@ const styles = {
     fontSize: 'clamp(24px, 4.5vw, 40px)',
     fontWeight: 800,
     margin: '6px 0 0 0',
-    letterSpacing: '-0.01em',
+    letterSpacing: '0',
+  },
+  sectionText: {
+    maxWidth: '620px',
+    fontFamily: typography.body,
+    fontSize: 'clamp(14px, 1.8vw, 17px)',
+    lineHeight: 1.65,
+    margin: '14px 0 0 0',
   },
   gridContainer: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
     gap: '24px',
   },
   serviceCard: {
+    position: 'relative',
     border: '1px solid',
     backdropFilter: glass.blur,
-    padding: '32px',
+    WebkitBackdropFilter: glass.blur,
+    padding: 'clamp(22px, 4vw, 32px)',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    minHeight: '340px',
+    minHeight: '420px',
     transition: transitions.smooth,
+    overflow: 'hidden',
+    willChange: 'transform, box-shadow, background',
+  },
+  cardGlow: {
+    position: 'absolute',
+    top: 0,
+    left: '12%',
+    right: '12%',
+    height: '1px',
+    transition: transitions.smooth,
+    pointerEvents: 'none',
   },
   cardHeader: {
     display: 'flex',
     flexDirection: 'column',
     gap: '12px',
   },
+  cardMetaRow: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '12px',
+    flexWrap: 'wrap',
+  },
   cardIndex: {
     fontFamily: typography.mono,
     fontSize: '13px',
     fontWeight: 600,
   },
+  badge: {
+    fontFamily: typography.mono,
+    fontSize: '9px',
+    letterSpacing: '0.12em',
+    border: '1px solid',
+    padding: '5px 8px',
+  },
   cardTitle: {
     fontFamily: typography.display,
-    fontSize: '20px',
-    fontWeight: 700,
+    fontSize: 'clamp(21px, 3vw, 28px)',
+    lineHeight: 1.08,
+    fontWeight: 800,
     margin: 0,
-    letterSpacing: '0.02em',
+    letterSpacing: '0',
+  },
+  price: {
+    fontFamily: typography.mono,
+    fontSize: 'clamp(18px, 3vw, 24px)',
+    lineHeight: 1,
+    fontWeight: 700,
+    margin: '6px 0 0 0',
+  },
+  cardBody: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '20px',
+    margin: '28px 0',
   },
   cardDesc: {
     fontFamily: typography.body,
-    fontSize: '13.5px',
+    fontSize: '14px',
     lineHeight: '1.6',
-    margin: '24px 0',
+    margin: 0,
+  },
+  scopeBox: {
+    border: '1px solid',
+    padding: '16px',
+  },
+  scopeLabel: {
+    display: 'block',
+    fontFamily: typography.mono,
+    fontSize: '10px',
+    letterSpacing: '0.14em',
+    marginBottom: '10px',
+  },
+  scopeText: {
+    fontFamily: typography.body,
+    fontSize: '13px',
+    lineHeight: 1.55,
+    margin: 0,
   },
   cardFooter: {
     paddingTop: '16px',
@@ -126,5 +234,6 @@ const styles = {
     fontSize: '11px',
     fontWeight: 600,
     letterSpacing: '0.1em',
+    textDecoration: 'none',
   },
 };
