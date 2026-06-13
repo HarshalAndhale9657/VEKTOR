@@ -1,8 +1,7 @@
-import { useState } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, glass, transitions } from '../tokens';
-import { cardHover, itemReveal, sectionReveal } from '../motionPresets';
+import { itemReveal, sectionReveal } from '../motionPresets';
 
 const STEPS = [
   {
@@ -29,8 +28,6 @@ const STEPS = [
 
 export default function VektorProcess() {
   const { currentTheme } = useTheme();
-  const shouldReduceMotion = useReducedMotion();
-  const [activeStep, setActiveStep] = useState(null);
 
   return (
     <motion.section
@@ -56,23 +53,13 @@ export default function VektorProcess() {
 
         <motion.div variants={sectionReveal} className="vektor-process-grid" style={styles.grid}>
           {STEPS.map((step) => {
-            const isActive = activeStep === step.index;
-
             return (
               <motion.article
                 className="vektor-interactive-card"
                 key={step.index}
                 variants={itemReveal}
-                onMouseEnter={() => setActiveStep(step.index)}
-                onMouseLeave={() => setActiveStep(null)}
-                onFocus={() => setActiveStep(step.index)}
-                onBlur={() => setActiveStep(null)}
-                whileHover={shouldReduceMotion ? undefined : cardHover}
-                whileFocus={shouldReduceMotion ? undefined : cardHover}
                 style={{
                   ...styles.stepCard,
-                  background: isActive ? currentTheme.surface : currentTheme.panel,
-                  borderColor: isActive ? currentTheme.borderHover : currentTheme.border,
                 }}
               >
                 <span style={{ ...styles.stepIndex, color: currentTheme.dim }}>{step.index}</span>

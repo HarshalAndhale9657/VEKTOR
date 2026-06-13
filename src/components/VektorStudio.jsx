@@ -1,8 +1,7 @@
-import { useState } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, glass, transitions } from '../tokens';
-import { cardHover, itemReveal, sectionReveal } from '../motionPresets';
+import { itemReveal, sectionReveal } from '../motionPresets';
 
 const FOUNDERS = [
   {
@@ -76,10 +75,7 @@ function SocialIcon({ type }) {
 }
 
 export default function VektorStudio() {
-  const { isDark, currentTheme } = useTheme();
-  const shouldReduceMotion = useReducedMotion();
-  const [activeCard, setActiveCard] = useState(null);
-  const [activeSocial, setActiveSocial] = useState(null);
+  const { currentTheme } = useTheme();
 
   return (
     <motion.section
@@ -125,32 +121,19 @@ export default function VektorStudio() {
 
         <motion.div variants={sectionReveal} style={styles.gridContainer}>
           {FOUNDERS.map((founder, index) => {
-            const isActive = activeCard === founder.name;
-
             return (
               <motion.article
                 className="vektor-interactive-card"
                 key={founder.name}
                 variants={itemReveal}
-                whileHover={shouldReduceMotion ? undefined : { ...cardHover, scale: 1.015 }}
-                whileFocus={shouldReduceMotion ? undefined : { ...cardHover, scale: 1.015 }}
                 style={{
                   ...styles.founderCard,
-                  background: isActive ? currentTheme.surface : currentTheme.panel,
-                  borderColor: isActive ? currentTheme.borderHover : currentTheme.border,
-                  boxShadow: isActive
-                    ? `0 28px 70px ${isDark ? currentTheme.base : currentTheme.dim}`
-                    : 'none',
                 }}
-                onMouseEnter={() => setActiveCard(founder.name)}
-                onMouseLeave={() => setActiveCard(null)}
-                onFocus={() => setActiveCard(founder.name)}
-                onBlur={() => setActiveCard(null)}
               >
                 <div
+                  className="vektor-card-glow"
                   style={{
                     ...styles.cardGlow,
-                    opacity: isActive ? 1 : 0,
                     background: `linear-gradient(90deg, transparent, ${currentTheme.borderHover}, transparent)`,
                   }}
                 />
@@ -159,12 +142,11 @@ export default function VektorStudio() {
                   <img
                     src={founder.image}
                     alt={`${founder.name} profile`}
+                    className="vektor-avatar"
                     style={{
                       ...styles.avatar,
                       borderColor: currentTheme.border,
                       backgroundColor: currentTheme.surface,
-                      transform: isActive ? 'scale(1.08)' : 'scale(1)',
-                      filter: isActive ? 'grayscale(0) contrast(1.02)' : 'grayscale(1) contrast(1.08)',
                     }}
                     loading="lazy"
                     decoding="async"
@@ -197,39 +179,19 @@ export default function VektorStudio() {
 
                   <div style={styles.socialRow} aria-label={`${founder.name} social links`}>
                     {founder.socials.map((social) => (
-                      <motion.a
-                        className="vektor-focus-ring"
+                      <a
+                        className="vektor-focus-ring vektor-social-link"
                         key={social.name}
                         href={social.href}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         aria-label={`${founder.name} ${social.name}`}
-                        onMouseEnter={() => setActiveSocial(`${founder.name}-${social.name}`)}
-                        onMouseLeave={() => setActiveSocial(null)}
-                        onFocus={() => setActiveSocial(`${founder.name}-${social.name}`)}
-                        onBlur={() => setActiveSocial(null)}
-                        whileHover={shouldReduceMotion ? undefined : { y: -3 }}
-                        whileFocus={shouldReduceMotion ? undefined : { y: -3 }}
-                        whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
-                        transition={{ duration: 0.18, ease: 'easeOut' }}
                         style={{
                           ...styles.socialLink,
-                          color:
-                            activeSocial === `${founder.name}-${social.name}`
-                              ? currentTheme.inverseBase
-                              : currentTheme.primary,
-                          borderColor:
-                            activeSocial === `${founder.name}-${social.name}`
-                              ? currentTheme.primary
-                              : currentTheme.border,
-                          background:
-                            activeSocial === `${founder.name}-${social.name}`
-                              ? currentTheme.primary
-                              : currentTheme.panel,
                         }}
                       >
                         <SocialIcon type={social.icon} />
-                      </motion.a>
+                      </a>
                     ))}
                   </div>
                 </div>

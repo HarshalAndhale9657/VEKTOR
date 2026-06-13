@@ -1,8 +1,7 @@
-import { useState } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, glass, transitions } from '../tokens';
-import { cardHover, itemReveal, sectionReveal } from '../motionPresets';
+import { itemReveal, sectionReveal } from '../motionPresets';
 
 const CARD_DATA = [
   {
@@ -33,8 +32,6 @@ const CARD_DATA = [
 
 export default function VektorServices() {
   const { currentTheme } = useTheme();
-  const shouldReduceMotion = useReducedMotion();
-  const [activeCard, setActiveCard] = useState(null);
 
   return (
     <motion.section
@@ -56,30 +53,19 @@ export default function VektorServices() {
 
         <motion.div variants={sectionReveal} className="vektor-card-grid" style={styles.gridContainer}>
           {CARD_DATA.map((card) => {
-            const isActive = activeCard === card.index;
-
             return (
             <motion.article
               className="vektor-interactive-card"
               key={card.index}
               variants={itemReveal}
-              onMouseEnter={() => setActiveCard(card.index)}
-              onMouseLeave={() => setActiveCard(null)}
-              onFocus={() => setActiveCard(card.index)}
-              onBlur={() => setActiveCard(null)}
-              whileHover={shouldReduceMotion ? undefined : cardHover}
-              whileFocus={shouldReduceMotion ? undefined : cardHover}
               style={{
                 ...styles.serviceCard,
-                background: isActive ? currentTheme.surface : currentTheme.panel,
-                borderColor: isActive ? currentTheme.borderHover : currentTheme.border,
-                boxShadow: isActive ? `0 24px 70px ${currentTheme.mesh}` : 'none',
               }}
             >
               <div
+                className="vektor-card-glow"
                 style={{
                   ...styles.cardGlow,
-                  opacity: isActive ? 1 : 0,
                   background: `linear-gradient(90deg, transparent, ${currentTheme.borderHover}, transparent)`,
                 }}
               />

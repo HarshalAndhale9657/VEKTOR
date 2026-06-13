@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, transitions } from '../tokens';
 import { itemReveal, sectionReveal } from '../motionPresets';
@@ -44,8 +43,6 @@ function SocialIcon({ type }) {
 
 export default function VektorFooter() {
   const { currentTheme } = useTheme();
-  const shouldReduceMotion = useReducedMotion();
-  const [activeSocial, setActiveSocial] = useState(null);
 
   return (
     <motion.footer
@@ -74,33 +71,20 @@ export default function VektorFooter() {
 
           <div style={styles.socialDock} aria-label="Vektor social links">
             {SOCIALS.map((social) => {
-              const isActive = activeSocial === social.name;
-
               return (
-                <motion.a
-                  className="vektor-focus-ring"
+                <a
+                  className="vektor-focus-ring vektor-social-link"
                   key={social.name}
                   href={social.href}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   aria-label={`Vektor Studio ${social.name}`}
-                  onMouseEnter={() => setActiveSocial(social.name)}
-                  onMouseLeave={() => setActiveSocial(null)}
-                  onFocus={() => setActiveSocial(social.name)}
-                  onBlur={() => setActiveSocial(null)}
-                  whileHover={shouldReduceMotion ? undefined : { y: -3 }}
-                  whileFocus={shouldReduceMotion ? undefined : { y: -3 }}
-                  whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
-                  transition={{ duration: 0.18, ease: 'easeOut' }}
                   style={{
                     ...styles.socialLink,
-                    color: isActive ? currentTheme.inverseBase : currentTheme.primary,
-                    borderColor: isActive ? currentTheme.primary : currentTheme.border,
-                    background: isActive ? currentTheme.primary : currentTheme.panel,
                   }}
                 >
                   <SocialIcon type={social.icon} />
-                </motion.a>
+                </a>
               );
             })}
           </div>

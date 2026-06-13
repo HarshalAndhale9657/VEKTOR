@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { motion } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, glass, transitions } from '../tokens';
@@ -8,7 +7,6 @@ const PROJECT_TYPES = ['One Page Website', 'Multi Page Website', 'Booking / Web 
 
 export default function VektorContact() {
   const { currentTheme } = useTheme();
-  const [activeButton, setActiveButton] = useState(false);
 
   return (
     <motion.section
@@ -41,20 +39,20 @@ export default function VektorContact() {
 
         <motion.form variants={itemReveal} style={{ ...styles.form, borderColor: currentTheme.border, background: currentTheme.panel }}>
           <div className="vektor-form-grid" style={styles.formGrid}>
-            <label style={styles.fieldLabel}>
+            <label style={styles.fieldLabel} htmlFor="contact-name">
               <span style={{ ...styles.labelText, color: currentTheme.dim }}>NAME</span>
-              <input className="vektor-form-control" style={fieldStyle(currentTheme)} name="name" type="text" placeholder="Your name" />
+              <input id="contact-name" className="vektor-form-control" style={fieldStyle(currentTheme)} name="name" type="text" placeholder="Your name" />
             </label>
 
-            <label style={styles.fieldLabel}>
+            <label style={styles.fieldLabel} htmlFor="contact-email">
               <span style={{ ...styles.labelText, color: currentTheme.dim }}>EMAIL</span>
-              <input className="vektor-form-control" style={fieldStyle(currentTheme)} name="email" type="email" placeholder="you@domain.com" />
+              <input id="contact-email" className="vektor-form-control" style={fieldStyle(currentTheme)} name="email" type="email" placeholder="you@domain.com" />
             </label>
           </div>
 
-          <label style={styles.fieldLabel}>
+          <label style={styles.fieldLabel} htmlFor="contact-type">
             <span style={{ ...styles.labelText, color: currentTheme.dim }}>PROJECT TYPE</span>
-            <select className="vektor-form-control" style={fieldStyle(currentTheme)} name="projectType" defaultValue="">
+            <select id="contact-type" className="vektor-form-control" style={fieldStyle(currentTheme)} name="projectType" defaultValue="">
               <option value="" disabled>Select build type</option>
               {PROJECT_TYPES.map((type) => (
                 <option key={type} value={type}>{type}</option>
@@ -62,9 +60,10 @@ export default function VektorContact() {
             </select>
           </label>
 
-          <label style={styles.fieldLabel}>
+          <label style={styles.fieldLabel} htmlFor="contact-notes">
             <span style={{ ...styles.labelText, color: currentTheme.dim }}>PROJECT NOTES</span>
             <textarea
+              id="contact-notes"
               className="vektor-form-control"
               style={{ ...fieldStyle(currentTheme), ...styles.textarea }}
               name="message"
@@ -74,17 +73,9 @@ export default function VektorContact() {
 
           <button
             type="button"
-            className="vektor-focus-ring vektor-cta-link"
-            onMouseEnter={() => setActiveButton(true)}
-            onMouseLeave={() => setActiveButton(false)}
-            onFocus={() => setActiveButton(true)}
-            onBlur={() => setActiveButton(false)}
+            className="vektor-focus-ring vektor-cta-link vektor-submit-button"
             style={{
               ...styles.submitButton,
-              background: activeButton ? currentTheme.surface : currentTheme.primary,
-              borderColor: activeButton ? currentTheme.borderHover : currentTheme.primary,
-              color: activeButton ? currentTheme.primary : currentTheme.inverseBase,
-              transform: activeButton ? 'translateY(-3px)' : 'translateY(0)',
             }}
           >
             SEND PROJECT SIGNAL

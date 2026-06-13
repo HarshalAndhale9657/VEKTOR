@@ -44,9 +44,72 @@ select {
   border-color: currentColor !important;
 }
 
+.vektor-interactive-card {
+  background: var(--theme-panel);
+  border-color: var(--theme-border);
+  transition: all 380ms cubic-bezier(0.4, 0, 0.2, 1), transform 380ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .vektor-interactive-card:focus-within {
   outline: 1px solid currentColor;
   outline-offset: 4px;
+}
+
+.vektor-interactive-card:hover,
+.vektor-interactive-card:focus-visible {
+  background: var(--theme-surface) !important;
+  border-color: var(--theme-borderHover) !important;
+  transform: translateY(-6px);
+  box-shadow: 0 24px 70px var(--theme-mesh);
+}
+
+.vektor-card-glow {
+  opacity: 0;
+}
+
+.vektor-interactive-card:hover .vektor-card-glow,
+.vektor-interactive-card:focus-visible .vektor-card-glow {
+  opacity: 1;
+}
+
+.vektor-avatar {
+  transform: scale(1);
+  filter: grayscale(1) contrast(1.08);
+}
+
+.vektor-interactive-card:hover .vektor-avatar,
+.vektor-interactive-card:focus-visible .vektor-avatar {
+  transform: scale(1.08);
+  filter: grayscale(0) contrast(1.02);
+}
+
+.vektor-social-link {
+  color: var(--theme-primary) !important;
+  border-color: var(--theme-border) !important;
+  background: var(--theme-panel) !important;
+}
+
+.vektor-social-link:hover,
+.vektor-social-link:focus-visible {
+  color: var(--theme-inverseBase) !important;
+  border-color: var(--theme-primary) !important;
+  background: var(--theme-primary) !important;
+  transform: translateY(-3px) scale(0.98);
+}
+
+.vektor-submit-button {
+  background: var(--theme-primary) !important;
+  border-color: var(--theme-primary) !important;
+  color: var(--theme-inverseBase) !important;
+  transform: translateY(0);
+}
+
+.vektor-submit-button:hover,
+.vektor-submit-button:focus-visible {
+  background: var(--theme-surface) !important;
+  border-color: var(--theme-borderHover) !important;
+  color: var(--theme-primary) !important;
+  transform: translateY(-3px);
 }
 
 .vektor-text-link,
@@ -85,26 +148,61 @@ select option {
   color: #000000;
 }
 
+.vektor-desktop-controls {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.vektor-mobile-controls {
+  display: none;
+}
+
+.vektor-process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+}
+
+.vektor-contact-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(32px, 7vw, 90px);
+  align-items: start;
+}
+
+.vektor-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.vektor-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 24px;
+}
+
 @media (max-width: 920px) {
   .vektor-desktop-controls {
-    display: none !important;
+    display: none;
   }
 
   .vektor-mobile-controls {
-    display: flex !important;
+    display: flex;
     align-items: center;
   }
 
   .vektor-process-grid,
   .vektor-contact-layout,
   .vektor-form-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 560px) {
   .vektor-card-grid {
-    gap: 16px !important;
+    gap: 16px;
   }
 }
 

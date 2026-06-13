@@ -1,8 +1,7 @@
-import { useState } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
 import { typography, glass, transitions } from '../tokens';
-import { cardHover, itemReveal, sectionReveal } from '../motionPresets';
+import { itemReveal, sectionReveal } from '../motionPresets';
 
 const PROJECTS = [
   {
@@ -52,8 +51,6 @@ function ProjectVisual({ project, theme }) {
 
 export default function VektorPortfolio() {
   const { currentTheme } = useTheme();
-  const shouldReduceMotion = useReducedMotion();
-  const [activeProject, setActiveProject] = useState(null);
 
   return (
     <motion.section
@@ -79,23 +76,13 @@ export default function VektorPortfolio() {
 
         <motion.div variants={sectionReveal} className="vektor-card-grid" style={styles.grid}>
           {PROJECTS.map((project) => {
-            const isActive = activeProject === project.index;
-
             return (
               <motion.article
                 className="vektor-interactive-card"
                 key={project.index}
                 variants={itemReveal}
-                onMouseEnter={() => setActiveProject(project.index)}
-                onMouseLeave={() => setActiveProject(null)}
-                onFocus={() => setActiveProject(project.index)}
-                onBlur={() => setActiveProject(null)}
-                whileHover={shouldReduceMotion ? undefined : cardHover}
-                whileFocus={shouldReduceMotion ? undefined : cardHover}
                 style={{
                   ...styles.projectCard,
-                  background: isActive ? currentTheme.surface : currentTheme.panel,
-                  borderColor: isActive ? currentTheme.borderHover : currentTheme.border,
                 }}
               >
                 <ProjectVisual project={project} theme={currentTheme} />

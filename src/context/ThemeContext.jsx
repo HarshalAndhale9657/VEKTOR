@@ -1,18 +1,14 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { colors } from '../tokens';
 
 const ThemeContext = createContext();
 
 export const themes = {
   dark: {
-    base: '#000000',
-    surface: '#08080a',
+    ...colors,
     border: 'rgba(255, 255, 255, 0.12)',
     borderHover: 'rgba(255, 255, 255, 0.35)',
-    primary: '#ffffff',
-    secondary: '#f4f4f5',
-    muted: '#a1a1aa',
-    dim: '#52525b',
     panel: 'rgba(255, 255, 255, 0.03)',
     mesh: 'rgba(255, 255, 255, 0.04)',
     inverse: '#ffffff',
@@ -39,6 +35,12 @@ export function ThemeProvider({ children }) {
 
   const toggleTheme = () => setIsDark(!isDark);
   const currentTheme = isDark ? themes.dark : themes.light;
+
+  useEffect(() => {
+    Object.entries(currentTheme).forEach(([key, value]) => {
+      document.documentElement.style.setProperty(`--theme-${key}`, value);
+    });
+  }, [currentTheme]);
 
   return (
     <ThemeContext.Provider value={{ isDark, currentTheme, toggleTheme }}>
