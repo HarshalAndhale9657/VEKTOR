@@ -56,12 +56,25 @@ export default function VektorFooter() {
         
         {/* Top Segment: Logo & CTA */}
         <motion.div variants={itemReveal} style={styles.topSection}>
+          {/*
+            FIX: Added `minWidth: 0` and `flexShrink: 0` to brandBlock.
+            Without minWidth:0 a flex child can overflow its container rather
+            than shrinking, preventing a clean wrap to a new row on mobile.
+            Also removed the hard `maxWidth: 300px` cap so on narrow screens
+            the brand block can expand to fill the full row width instead of
+            sitting as a partial-width orphan.
+          */}
           <div style={styles.brandBlock}>
             <span style={{ ...styles.logoText, color: currentTheme.primary }}>VEKTOR</span>
             <p style={{ ...styles.brandDesc, color: currentTheme.muted }}>
               Websites and web apps for businesses that need a sharp digital operating layer.
             </p>
           </div>
+
+          {/*
+            FIX: Added `minWidth: 0` to linkGrid so it correctly collapses
+            its flex children when there isn't enough horizontal space.
+          */}
           <div style={styles.linkGrid}>
             <a className="vektor-focus-ring vektor-text-link" href="#services" style={{ ...styles.link, color: currentTheme.muted }}>PRICING</a>
             <a className="vektor-focus-ring vektor-text-link" href="#process" style={{ ...styles.link, color: currentTheme.muted }}>PROCESS</a>
@@ -165,7 +178,13 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     gap: '12px',
-    maxWidth: '300px',
+    // FIX: Replaced hard `maxWidth: '300px'` with a fluid clamp so on desktop
+    // the block stays bounded at 300px but on mobile it expands to fill the row.
+    // `minWidth: 0` prevents flex overflow; `flexShrink: 0` stops unintended
+    // squishing when sibling items are present on the same row.
+    maxWidth: 'min(300px, 100%)',
+    minWidth: 0,
+    flexShrink: 0,
   },
   logoText: {
     fontFamily: typography.display,
@@ -183,6 +202,9 @@ const styles = {
     display: 'flex',
     gap: '32px',
     flexWrap: 'wrap',
+    // FIX: `minWidth: 0` ensures this flex child can shrink below its content
+    // size and wrap to a new row rather than overflowing its container.
+    minWidth: 0,
   },
   link: {
     fontFamily: typography.mono,

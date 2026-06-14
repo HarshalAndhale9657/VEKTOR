@@ -51,6 +51,13 @@ export default function VektorProcess() {
           </p>
         </motion.div>
 
+        {/*
+          FIX: Removed `gridTemplateColumns` from the inline `style` prop here.
+          The grid layout is now controlled entirely by the `.vektor-process-grid`
+          class in index.css, which already has the correct 4-column desktop rule
+          and collapses to 1-column at ≤920px via a media query.
+          The inline style was overriding the media query and preventing collapse.
+        */}
         <motion.div variants={sectionReveal} className="vektor-process-grid" style={styles.grid}>
           {STEPS.map((step) => {
             return (
@@ -107,9 +114,9 @@ const styles = {
     lineHeight: 1.65,
     margin: '14px 0 0 0',
   },
+  // FIX: `gridTemplateColumns` removed from here. The class handles it.
+  // All other grid properties (gap, display) that don't conflict are kept.
   grid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
     gap: '1px',
   },
   stepCard: {

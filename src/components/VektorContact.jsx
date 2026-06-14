@@ -21,6 +21,13 @@ export default function VektorContact() {
         borderTop: `1px solid ${currentTheme.border}`,
       }}
     >
+      {/*
+        FIX: Removed `gridTemplateColumns` and `gap` from the inline `style` prop.
+        The layout is now controlled by the `.vektor-contact-layout` class in
+        index.css, which sets the two-column desktop grid and collapses to a
+        single column at ≤920px. The inline style was winning the cascade and
+        blocking that media query from ever applying.
+      */}
       <motion.div variants={sectionReveal} className="vektor-contact-layout" style={styles.innerContent}>
         <motion.div variants={itemReveal} style={styles.copyBlock}>
           <div style={{ ...styles.headerBlock, borderLeft: `2px solid ${currentTheme.primary}` }}>
@@ -38,7 +45,12 @@ export default function VektorContact() {
         </motion.div>
 
         <motion.form variants={itemReveal} style={{ ...styles.form, borderColor: currentTheme.border, background: currentTheme.panel }}>
-          <div className="vektor-form-grid" style={styles.formGrid}>
+          {/*
+            FIX: Removed `gridTemplateColumns` and `gap` from the inline `style` prop.
+            The `.vektor-form-grid` class in index.css provides the 2-column desktop
+            layout and collapses to 1-column at ≤920px.
+          */}
+          <div className="vektor-form-grid" style={styles.formGridWrapper}>
             <label style={styles.fieldLabel} htmlFor="contact-name">
               <span style={{ ...styles.labelText, color: currentTheme.dim }}>NAME</span>
               <input id="contact-name" className="vektor-form-control" style={fieldStyle(currentTheme)} name="name" type="text" placeholder="Your name" />
@@ -106,14 +118,13 @@ const styles = {
     width: '100%',
     transition: 'background-color 0.3s ease, border-color 0.3s ease',
   },
+  // FIX: `gridTemplateColumns`, `gap`, `display`, and `alignItems` removed.
+  // Those are now fully owned by the `.vektor-contact-layout` CSS class.
+  // Only padding, maxWidth, and margin (non-conflicting layout props) remain inline.
   innerContent: {
     padding: 'max(60px, 8vw) max(20px, 4vw)',
     maxWidth: '1440px',
     margin: '0 auto',
-    display: 'grid',
-    gridTemplateColumns: 'minmax(0, 0.85fr) minmax(0, 1.15fr)',
-    gap: 'clamp(32px, 7vw, 90px)',
-    alignItems: 'start',
   },
   copyBlock: {
     display: 'flex',
@@ -169,11 +180,8 @@ const styles = {
     flexDirection: 'column',
     gap: '18px',
   },
-  formGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-    gap: '18px',
-  },
+  // FIX: `gridTemplateColumns` and `gap` removed. Owned by `.vektor-form-grid`.
+  formGridWrapper: {},
   fieldLabel: {
     display: 'flex',
     flexDirection: 'column',

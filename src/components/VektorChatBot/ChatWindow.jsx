@@ -149,6 +149,12 @@ export default function ChatWindow() {
           placeholder="Ask me anything..."
           style={{
             flex: 1,
+            // FIX: Added `minWidth: 0`. By default a flex child's minimum size
+            // is its content/intrinsic width, which can exceed `flex: 1` on
+            // narrow viewports and push the Send button out of view or cause
+            // horizontal overflow inside the chat panel. minWidth:0 overrides
+            // that floor so the input correctly shrinks to share available space.
+            minWidth: 0,
             background: 'rgba(255, 255, 255, 0.05)',
             border: `1px solid ${currentTheme.border}`,
             borderRadius: '8px',
@@ -168,6 +174,9 @@ export default function ChatWindow() {
             border: 'none',
             borderRadius: '8px',
             width: '44px',
+            // FIX: Added `flexShrink: 0` so the Send button always holds its
+            // 44px width and never gets compressed when the input needs space.
+            flexShrink: 0,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

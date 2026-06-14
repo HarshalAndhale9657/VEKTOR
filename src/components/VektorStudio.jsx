@@ -40,27 +40,27 @@ const FOUNDERS = [
     ],
   },
   {
-  name: 'Ali Jan',
-  image: '/images/ALI.jpg',
-  role: 'Full-Stack Developer',
-  signal: 'REACT / NODE / FULL-STACK',
-  metric: 'END-TO-END SHIP SPEED',
-  socials: [
-    { name: 'LinkedIn', icon: 'linkedin', href: 'https://linkedin.com/in/ali-jan-16872a306/' },
-    { name: 'GitHub', icon: 'github', href: 'https://github.com/AleyJan' },
-  ],
-},
-{
-  name: 'Sumeet Gite',
-  image: '/images/sumeet.jpg',
-  role: 'Marketing & Growth',
-  signal: 'GROWTH / SEO / BRAND STRATEGY',
-  metric: 'CONVERSION-FIRST CAMPAIGNS',
-  socials: [
-    { name: 'LinkedIn', icon: 'linkedin', href: 'https://linkedin.com/in/sumeet-gite-0668a8297/' },
-    { name: 'GitHub', icon: 'github', href: 'https://github.com/...' },
-  ],
-},
+    name: 'Ali Jan',
+    image: '/images/ALI.jpg',
+    role: 'Full-Stack Developer',
+    signal: 'REACT / NODE / FULL-STACK',
+    metric: 'END-TO-END SHIP SPEED',
+    socials: [
+      { name: 'LinkedIn', icon: 'linkedin', href: 'https://linkedin.com/in/ali-jan-16872a306/' },
+      { name: 'GitHub', icon: 'github', href: 'https://github.com/AleyJan' },
+    ],
+  },
+  {
+    name: 'Sumeet Gite',
+    image: '/images/sumeet.jpg',
+    role: 'Marketing & Growth',
+    signal: 'GROWTH / SEO / BRAND STRATEGY',
+    metric: 'CONVERSION-FIRST CAMPAIGNS',
+    socials: [
+      { name: 'LinkedIn', icon: 'linkedin', href: 'https://linkedin.com/in/sumeet-gite-0668a8297/' },
+      { name: 'GitHub', icon: 'github', href: 'https://github.com/...' },
+    ],
+  },
 ];
 
 function SocialIcon({ type }) {
@@ -299,9 +299,19 @@ const styles = {
     lineHeight: 1.65,
     margin: '14px 0 0 0',
   },
+  /*
+    FIX: Raised the minmax floor from 280px to 320px.
+    With 5 cards and a 280px floor, auto-fit was fitting 2 columns
+    on viewports between ~580px and ~900px, leaving cards too narrow
+    and causing content overlap. At 320px the grid drops to a single
+    column at ~680px, giving every card enough breathing room on mobile.
+    The `min(100%, 320px)` inner clamp ensures the card never exceeds
+    the container on very small screens, identical to the pattern used
+    in the other grids throughout the site.
+  */
   gridContainer: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))',
     gap: '24px',
   },
   founderCard: {
